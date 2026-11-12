@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kembara Piramid Makanan bersama Mr. Meow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--cream:#fff1cb;--brown:#59351f;--gold:#ffd76d}
+    *{box-sizing:border-box}
+    body{margin:0;background:#102c2c;color:var(--cream);font-family:"Nunito",sans-serif;overflow-x:hidden}
+    button{font-family:"Nunito",sans-serif;cursor:pointer}
+    button:focus-visible{outline:4px solid #fff;outline-offset:4px}
+    .shell{width:min(100%,1600px);margin:auto;padding:12px}
+    .stage{position:relative;width:100%;aspect-ratio:16/9;min-height:420px;overflow:hidden;border:6px solid #704a2a;border-radius:22px;box-shadow:0 20px 70px #081d1c;isolation:isolate;background:radial-gradient(ellipse at 52% 25%,#80d7d2 0%,#286d78 47%,#143b44 100%)}
+    .stage.warm{background:radial-gradient(ellipse at 50% 30%,#ffeaa0,#b77b30 48%,#423724)}
+    .stage.fire{background:radial-gradient(ellipse at 50% 35%,#e79149,#813d29 48%,#252c30)}
+    .stage.sunny{background:radial-gradient(ellipse at 52% 22%,#98e6ff,#57c6de 54%,#438c68)}
+    .stage::before,.stage::after{content:"";position:absolute;pointer-events:none;z-index:0}
+    .stage::before{inset:0;background:radial-gradient(ellipse at center,transparent 35%,#082d2b99 100%)}
+    .stage::after{bottom:-8%;left:-10%;width:120%;height:35%;background:radial-gradient(ellipse at center,#a3b54b 0%,#477739 46%,#173e32 85%);border-radius:50%}
+    .forest{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+    .trunk{position:absolute;bottom:0;width:8%;height:100%;background:linear-gradient(90deg,#163a32,#3b4930,#122e2e);border-radius:45% 45% 0 0}
+    .trunk.left{left:-3%;transform:rotate(8deg)}.trunk.right{right:-3%;transform:rotate(-8deg)}
+    .leaf{position:absolute;font-size:clamp(40px,7vw,130px);filter:drop-shadow(0 8px 3px #0b2e2b66);animation:sway 5s ease-in-out infinite alternate}
+    .l1{left:2%;top:-4%}.l2{right:1%;top:-5%;animation-delay:-2s}.l3{left:0;bottom:2%;animation-delay:-1s}.l4{right:-1%;bottom:0;animation-delay:-3s}
+    .spark{position:absolute;color:#ffe99a;font-size:20px;animation:twinkle 3s ease-in-out infinite}.s1{left:17%;top:28%}.s2{right:16%;top:42%;animation-delay:1s}.s3{left:78%;top:17%;animation-delay:2s}
+    .slide{position:absolute;inset:0;z-index:2;padding:3.2% 5% 10%;display:none;animation:enter .45s ease both}
+    .slide.active{display:block}
+    h1,h2,h3,p{margin:0}h1,h2,h3{font-family:"Baloo 2",sans-serif;line-height:1.06}
+    h1{font-size:clamp(31px,5.5vw,88px);font-weight:800;text-shadow:4px 5px 0 #4c2345,0 0 22px #fff7}
+    h2{font-size:clamp(25px,3.4vw,56px);font-weight:800}
+    p{font-size:clamp(15px,1.75vw,29px);line-height:1.28;font-weight:900}
+    .sign{display:inline-block;max-width:92%;padding:.6% 2.7%;border:7px ridge #ab7041;border-radius:16px;background:repeating-linear-gradient(0deg,#75452c 0 22px,#805034 23px 44px);box-shadow:0 11px 0 #3b291e,0 17px 30px #0007;text-shadow:2px 3px #422818;text-align:center}
+    .sign h2{color:#ffe1a2}
+    .top-center{text-align:center}
+    .cat{width:clamp(130px,23vw,360px);height:auto;filter:drop-shadow(0 12px 9px #081c1d8a);animation:bob 3s ease-in-out infinite;transform-origin:bottom center}
+    .cat.small{width:clamp(105px,16vw,250px)}
+    .cat.large{width:clamp(180px,28vw,430px)}
+    .cat.jump{animation:jump .65s ease-in-out 2}
+    .cat .paw{transform-origin:150px 173px;animation:wave 2.8s ease-in-out infinite}
+    .hero-cat{position:absolute;left:37%;bottom:10%}
+    .hero-title{text-align:center;position:relative;z-index:2;margin-top:1%}
+    .hero-title .green{color:#a5ea52}.hero-title .yellow{color:#ffcd3f}.hero-title .pink{color:#ff8297}
+    .hero-start{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);z-index:4}
+    .btn{border:4px solid #fff5c3;border-radius:18px;background:linear-gradient(#ffce4d,#f47d19);color:white;text-shadow:2px 3px #8c3d18;box-shadow:0 7px 0 #9c431d,0 12px 20px #0006;padding:.55em 1.35em;font-size:clamp(16px,2.1vw,32px);font-weight:900;transition:filter .2s,scale .2s}
+    .btn:hover{filter:brightness(1.12);scale:1.04}.btn:disabled{filter:grayscale(1);opacity:.55;cursor:not-allowed}
+    .controls{position:absolute;z-index:10;left:3%;right:3%;bottom:2%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .controls .btn{font-size:clamp(13px,1.3vw,20px);padding:.35em .9em;border-width:3px;border-radius:12px}
+    .controls .back{background:linear-gradient(#7ab5a3,#377f76);box-shadow:0 5px 0 #245c55}
+    .counter{border-radius:30px;background:#153f3acc;padding:6px 14px;font-weight:900;font-size:clamp(13px,1.2vw,19px)}
+    .intro-layout{display:grid;grid-template-columns:42% 58%;align-items:center;height:86%}
+    .intro-layout .cat{width:min(90%,400px)}
+    .wood-panel{background:repeating-linear-gradient(0deg,#a97142 0 31px,#b77e4b 32px 65px);border:10px ridge #734526;border-radius:18px;padding:5%;color:#462513;box-shadow:0 15px 25px #0007}
+    .wood-panel p{margin:0 0 5%}
+    .bubble{background:#fffdf0;color:#24221c;border:4px solid #34251e;border-radius:40% 42% 38% 35%;padding:4%;text-align:center;box-shadow:0 7px 15px #0005}
+    .intro-bubble{position:absolute;left:26%;bottom:12%;width:31%}
+    .map-layout{display:flex;align-items:center;justify-content:center;height:75%}
+    .pyramid{width:min(40%,440px);height:78%;display:flex;flex-direction:column;justify-content:flex-end;filter:drop-shadow(0 12px 15px #0008)}
+    .tier{display:grid;place-items:center;margin:0 auto;height:25%;border:4px solid #c89850;background:linear-gradient(135deg,#85603d,#4a443a);color:#ffeac0;font-family:"Baloo 2";font-weight:800;font-size:clamp(15px,2vw,29px);box-shadow:inset 0 0 22px #0007;animation:rise .55s both}
+    .tier:nth-child(1){width:37%;clip-path:polygon(50% 0,100% 100%,0 100%);padding-top:7%}
+    .tier:nth-child(2){width:58%;animation-delay:.15s}.tier:nth-child(3){width:79%;animation-delay:.3s}.tier:nth-child(4){width:100%;animation-delay:.45s}
+    .map-labels{display:flex;flex-direction:column;justify-content:space-around;height:77%;margin-right:3%;font-size:clamp(18px,2.5vw,38px);font-weight:900;text-shadow:2px 3px #173a35}
+    .level-layout{height:77%;display:grid;grid-template-columns:28% 42% 30%;align-items:center;gap:1%}
+    .food{font-size:clamp(38px,7.5vw,115px);text-align:center;line-height:1.5;letter-spacing:-.12em;animation:rise .7s both;filter:drop-shadow(0 10px 7px #0007)}
+    .food span{display:inline-block;animation:bob 3s ease-in-out infinite}.food span:nth-child(2){animation-delay:-1s}
+    .level-cat{text-align:center}.level-cat .cat{width:min(82%,260px)}
+    .level-talk{display:flex;flex-direction:column;gap:5%;align-items:center}
+    .level-talk .bubble{font-size:clamp(15px,1.8vw,28px);font-weight:900;padding:7%;border-radius:35px}
+    .badge{border:7px double #eaca74;border-radius:50%;width:clamp(115px,16vw,250px);aspect-ratio:1;display:grid;place-items:center;text-align:center;padding:8%;font-family:"Baloo 2";font-size:clamp(15px,2.05vw,32px);line-height:1.08;font-weight:800;background:radial-gradient(#79bd54,#17684e);box-shadow:0 0 28px #83e878aa;text-shadow:2px 2px #28503b;animation:glow 3s infinite}
+    .badge.gold{background:radial-gradient(#fff17a,#b56a16);box-shadow:0 0 28px #ffce57aa}
+    .badge.blue{background:radial-gradient(#6ce5f7,#164b9e);box-shadow:0 0 28px #6ccbf7aa}
+    .badge.red{background:radial-gradient(#ef7651,#8a2926);box-shadow:0 0 28px #fb7958aa}
+    .inventory-title{text-align:center;margin-bottom:3%}
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5%;height:69%}
+    .power-card{border:6px double currentColor;border-radius:20px;background:linear-gradient(145deg,#23533e,#12392e);color:#80ed6c;box-shadow:0 0 16px currentColor, inset 0 0 25px #0007;padding:5% 4%;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:space-around;transition:transform .25s,box-shadow .25s}
+    .power-card:hover,.power-card.selected{transform:translateY(-8px) scale(1.025);box-shadow:0 0 32px currentColor,inset 0 0 20px #ffffff30}
+    .power-card.gold{color:#ffd866;background:linear-gradient(145deg,#805722,#392d1d)}
+    .power-card.blue{color:#6ee3f9;background:linear-gradient(145deg,#236b85,#18344e)}
+    .power-card.red{color:#ff8273;background:linear-gradient(145deg,#873829,#3b2428)}
+    .card-icon{font-size:clamp(35px,5.2vw,82px);line-height:1.1}.power-card h3{font-size:clamp(14px,1.55vw,24px);color:#fff0cb}.power-card p{font-size:clamp(11px,1.23vw,19px);color:#fff9e7}
+    .card-detail{position:absolute;left:12%;right:12%;bottom:11%;background:#fff6dc;color:#3e281c;border:5px solid #d5a85e;border-radius:17px;padding:1% 3%;text-align:center;box-shadow:0 10px 30px #0009;z-index:5;display:none;font-size:clamp(14px,1.6vw,24px);font-weight:900}
+    .card-detail.show{display:block;animation:enter .3s ease}
+    .quiz-layout{display:grid;grid-template-columns:39% 24% 37%;align-items:center;height:72%}
+    .quiz-food{font-size:clamp(90px,19vw,290px);text-align:center;filter:drop-shadow(0 0 28px #fc9b32);animation:bob 3s infinite}
+    .quiz-meal{position:relative;display:flex;align-items:center;justify-content:center;gap:3%;animation:rise .7s both;filter:drop-shadow(0 12px 16px #20120c9c)}
+    .quiz-meal-plate{width:min(22vw,340px);aspect-ratio:1.25;border:clamp(7px,1.1vw,17px) solid #f9e9bf;border-radius:50%;background:radial-gradient(ellipse,#fff8df 48%,#dfbf88 80%);box-shadow:inset 0 0 0 5px #bd9566,0 0 26px #ff9b4a;display:flex;align-items:center;justify-content:center;gap:2%;transform:rotate(-8deg)}
+    .quiz-rice{font-size:clamp(52px,9vw,140px);line-height:1}.quiz-protein{font-size:clamp(30px,5vw,75px);line-height:1;transform:rotate(20deg)}
+    .quiz-soda{position:relative;width:clamp(40px,5vw,78px);height:clamp(85px,11vw,170px);border:5px solid #d6e9dc;border-radius:13px 13px 18px 18px;background:linear-gradient(90deg,#68311e,#aa4d30 40%,#71301d);box-shadow:inset 8px 0 #ffffff33,0 0 18px #ffdc7b;transform:rotate(7deg)}
+    .quiz-soda::before{content:"";position:absolute;top:-12px;left:15%;width:70%;height:10px;border-radius:5px;background:#d9e6d7}.quiz-soda::after{content:"✦";position:absolute;top:23%;right:10%;color:#fff9ba;font-size:clamp(17px,2vw,29px);animation:twinkle 2s ease-in-out infinite}
+    .quiz-soda-bubbles{position:absolute;left:40%;bottom:12%;color:#ffedb4;font-size:clamp(14px,1.8vw,25px);animation:twinkle 2.5s ease-in-out infinite alternate}
+    #answer-no.correct{filter:brightness(1.35);outline:4px solid #fff4a7}#answer-yes.incorrect{animation:quizShake .35s ease 2;filter:saturate(.65)}@keyframes quizShake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+    .quiz-question{font-family:"Baloo 2";font-size:clamp(20px,2.4vw,38px);line-height:1.15}
+    .quiz-cat{text-align:center}.quiz-cat .cat{width:min(90%,280px)}
+    .answers{position:absolute;bottom:11%;left:24%;right:24%;display:flex;justify-content:space-between;gap:16px}
+    .answers .btn{min-width:38%}.answers .no{background:linear-gradient(#ff8765,#cd352b);box-shadow:0 7px 0 #8c2424}.answers .yes{background:linear-gradient(#a3e85b,#348a3d);box-shadow:0 7px 0 #26602d}
+    .feedback{position:absolute;bottom:22%;left:40%;width:20%;text-align:center;font-family:"Baloo 2";font-size:clamp(20px,3vw,48px);font-weight:800;text-shadow:2px 3px #35201c}
+    .plate-layout{display:grid;grid-template-columns:33% 67%;align-items:center;height:68%}
+    .plate-left{text-align:center}.plate-left .cat{width:min(85%,260px)}.plate-left .bubble{font-size:clamp(14px,1.5vw,23px);font-weight:900;padding:5%;border-radius:24px}
+    .plate-area{text-align:center}.plate{position:relative;width:min(45vw,470px);aspect-ratio:1;margin:auto;border:14px solid #eee4cb;border-radius:50%;box-shadow:0 0 35px #fff1a1;background:conic-gradient(from 0deg,#b5d0d6 0 90deg,#78ad5f 90deg 270deg,#e5ae5b 270deg 360deg);overflow:hidden;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+    .plate>div{display:grid;place-items:center;font-size:clamp(35px,6vw,90px);border:3px solid #f8f1db}
+    .plate .half{grid-column:1/3}.plate-labels{display:flex;justify-content:space-around;font-size:clamp(13px,1.6vw,25px);font-weight:900;text-shadow:2px 3px #4e3723}
+    .plate-title{text-align:center;position:absolute;bottom:11%;left:20%;right:20%;font-family:"Baloo 2";font-size:clamp(20px,2.7vw,44px);font-weight:800;color:#ffe39b;text-shadow:3px 4px #4a2d20}
+    .win-layout{text-align:center;height:75%;display:flex;align-items:center;justify-content:center;gap:4%}
+    .win-layout .cat{width:min(25%,310px)}
+    .win-banner{background:#fff2d5;color:#563618;border:7px ridge #c99f62;padding:3%;border-radius:18px;font-size:clamp(17px,2.2vw,35px);font-weight:900;max-width:58%;box-shadow:0 0 30px #ffe481}
+    .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .confetti i{position:absolute;top:-10%;width:10px;height:18px;background:var(--c);left:var(--x);animation:fall var(--t) linear infinite;animation-delay:var(--d)}
+    @keyframes bob{50%{transform:translateY(-10px) rotate(2deg)}}
+    @keyframes wave{50%{transform:rotate(-10deg)}}
+    @keyframes jump{50%{transform:translateY(-48px) rotate(-4deg)}}
+    @keyframes sway{to{transform:rotate(9deg) translateX(8px)}}
+    @keyframes twinkle{50%{opacity:.3;transform:scale(.6)}}
+    @keyframes glow{50%{filter:brightness(1.25)}}
+    @keyframes rise{from{opacity:0;transform:translateY(25px) scale(.9)}to{opacity:1;transform:none}}
+    @keyframes enter{from{opacity:0;transform:translateX(18px) scale(.98)}to{opacity:1;transform:none}}
+    @keyframes fall{to{transform:translateY(110vh) rotate(600deg)}}
+    @media(max-width:700px){.shell{padding:4px}.stage{border-width:3px;border-radius:10px;min-height:360px}.slide{padding:5% 4% 13%}.sign{border-width:4px}.wood-panel{border-width:5px}.controls{bottom:2%}.cards{gap:1%;height:65%}.power-card{border-width:3px;border-radius:10px}.level-layout{grid-template-columns:26% 40% 34%}.badge{border-width:4px}.intro-bubble{bottom:15%}.plate{width:min(43vw,280px);border-width:7px}.quiz-food{font-size:90px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <div id="stage" class="stage sunny" aria-label="Presentation Kembara Piramid Makanan bersama Mr. Meow">
+    <div class="forest" aria-hidden="true">
+      <div class="trunk left"></div>
+      <div class="trunk right"></div>
+      <span class="leaf l1">🌿</span><span class="leaf l2">🍃</span><span class="leaf l3">🌿</span><span class="leaf l4">🍃</span>
+      <span class="spark s1">✨</span><span class="spark s2">✨</span><span class="spark s3">✨</span>
+    </div>
+    <div id="slides"></div>
+    <nav class="controls" aria-label="Navigasi slide">
+      <button id="back" class="btn back" type="button">← Kembali</button>
+      <span id="counter" class="counter" aria-live="polite"></span>
+      <button id="next" class="btn" type="button">Seterusnya →</button>
+    </nav>
+  </div>
+</main>
+<script>
+const cat=`<svg class="cat" viewBox="0 0 250 300" role="img" aria-label="Mr. Meow, kucing belang bertopi pengembara"><defs><linearGradient id="fur" x2="1" y2="1"><stop stop-color="#f5cf95"/><stop offset=".55" stop-color="#c58d59"/><stop offset="1" stop-color="#8b593b"/></linearGradient></defs><path d="M65 230 Q12 230 25 179 Q31 162 45 183 Q35 206 72 206" fill="none" stroke="#78503d" stroke-width="22" stroke-linecap="round"/><rect x="54" y="132" width="33" height="90" rx="13" fill="#6d5b43" stroke="#493c30" stroke-width="5"/><ellipse cx="125" cy="221" rx="70" ry="68" fill="url(#fur)" stroke="#65402b" stroke-width="5"/><ellipse cx="126" cy="230" rx="39" ry="50" fill="#fff2d5"/><path d="M93 175l-21 59m99-59 20 59M105 213l-15 35m65-35 15 35" stroke="#76503a" stroke-width="9" stroke-linecap="round"/><ellipse cx="86" cy="277" rx="25" ry="13" fill="#d9a978" stroke="#65402b" stroke-width="4"/><ellipse cx="167" cy="277" rx="25" ry="13" fill="#d9a978" stroke="#65402b" stroke-width="4"/><path d="M75 68L67 31 Q66 18 79 25L107 46M174 68l9-37q3-14-11-7l-28 23" fill="url(#fur)" stroke="#65402b" stroke-width="5"/><path d="M76 43l6-7 12 16m78-9-6-7-12 16" fill="#eaa9a3"/><ellipse cx="125" cy="108" rx="76" ry="65" fill="url(#fur)" stroke="#65402b" stroke-width="5"/><path d="M109 56l6 26m15-27-2 28m15-24-5 22M65 93l18 11m-16 12 16 2m100-26-17 11m17 13-17 2" stroke="#714b38" stroke-width="8" stroke-linecap="round"/><ellipse cx="96" cy="107" rx="18" ry="23" fill="#fff8db"/><ellipse cx="155" cy="107" rx="18" ry="23" fill="#fff8db"/><ellipse cx="98" cy="109" rx="11" ry="17" fill="#60471e"/><ellipse cx="155" cy="109" rx="11" ry="17" fill="#60471e"/><circle cx="94" cy="102" r="5" fill="white"/><circle cx="151" cy="102" r="5" fill="white"/><ellipse cx="125" cy="137" rx="39" ry="22" fill="#fff0d4"/><path d="M116 131q9-8 18 0l-9 9z" fill="#bd6b6b" stroke="#694638" stroke-width="3"/><path d="M125 140q-5 12-17 5m17-5q5 12 17 5" fill="none" stroke="#64412f" stroke-width="3" stroke-linecap="round"/><circle cx="72" cy="132" r="9" fill="#eb9e92" opacity=".8"/><circle cx="179" cy="132" r="9" fill="#eb9e92" opacity=".8"/><path d="M85 137l-32 0m32 9-28 9m108-18 32 0m-32 9 28 9" stroke="#eee4c9" stroke-width="2"/><path d="M82 61Q85 22 125 16q43 5 47 45" fill="#bfa575" stroke="#634b35" stroke-width="5"/><ellipse cx="126" cy="63" rx="100" ry="18" fill="#c9ad78" stroke="#634b35" stroke-width="5"/><path d="M42 59q84 17 167 0" fill="none" stroke="#715e3e" stroke-width="8"/><path d="M90 171l35 17 70 0l-34 36z" fill="#dbc38c" stroke="#715a3c" stroke-width="4"/><g class="paw"><path d="M176 180q33-6 37-34 5-22 17-18 15 8 6 37-11 40-50 42" fill="url(#fur)" stroke="#65402b" stroke-width="5"/><ellipse cx="227" cy="132" rx="17" ry="19" fill="#f6dfbd" stroke="#65402b" stroke-width="4"/><circle cx="226" cy="134" r="7" fill="#eaa39e"/><circle cx="219" cy="121" r="3" fill="#eaa39e"/><circle cx="231" cy="120" r="3" fill="#eaa39e"/></g></svg>`;
+const sign=t=>`<div class="sign"><h2>${t}</h2></div>`;
+const level=(n,title,foods,badge,talk,theme)=>`<section class="slide" data-theme="${theme}" aria-label="Slide ${n+3}: Aras ${n}"><div>${sign(`ARAS ${n}:<br>${title}`)}</div><div class="level-layout"><div class="food" aria-hidden="true">${foods}</div><div class="level-cat">${cat}</div><div class="level-talk"><div class="badge ${n===2?'gold':n===3?'blue':n===4?'red':''}">${badge}</div><div class="bubble">${talk}</div></div></div></section>`;
+const slides=[
+  `<section class="slide" data-theme="sunny" aria-label="Slide 1: Halaman mula"><div class="hero-title"><h1><span class="green">KEMBARA</span><br><span class="yellow">PIRAMID</span> <span class="pink">MAKANAN!</span></h1></div><div class="hero-cat">${cat.replace('class="cat"','class="cat large"')}</div><button id="start" class="btn hero-start" type="button">MULA →</button></section>`,
+  `<section class="slide" data-theme="sunny" aria-label="Slide 2: Pengenalan Mr. Meow"><div class="intro-layout"><div>${cat.replace('class="cat"','class="cat large"')}</div><div class="wood-panel"><p>Nama: Mr. Meow</p><p>Hobi: Makan makanan berkhasiat</p><p>Misi Hari Ini: Menakluk Piramid Makanan!</p></div></div><div class="bubble intro-bubble"><p>Hai kawan-kawan Tahun 4! Jom ikut saya jadi juara sihat!</p></div></section>`,
+  `<section class="slide" data-theme="" aria-label="Slide 3: Peta Kembara"><div class="top-center">${sign('Peta Kembara:<br>4 Tahap Menuju Puncak!')}</div><div class="map-layout"><div class="map-labels"><div>Aras 4</div><div>Aras 3</div><div>Aras 2</div><div>Aras 1</div></div><div class="pyramid" aria-label="Piramid empat aras"><div class="tier">Aras 4</div><div class="tier">Aras 3</div><div class="tier">Aras 2</div><div class="tier">Aras 1</div></div></div></section>`,
+  level(1,'Sayur-sayuran &amp; <br>Buah-buahan','<span>🥦</span><span>🍎</span><span>🥕</span>','MAKAN<br>PALING<br>BANYAK','Ini perisai kita! Ia beri kita vitamin berkuasa untuk lawan raksasa penyakit.',''),
+  level(2,'Karbohidrat','<span>🍚</span><span>🍞</span><span>🌽</span>','MAKAN<br>SECUKUPNYA','Bahan api terbaik! Inilah rahsia untuk kita lari pantas dan fokus di sekolah!','warm'),
+  level(3,'Protein &amp; Tenusu','<span>🐟</span><span>🥚</span><span>🥛</span>','MAKAN<br>SEDERHANA','Bina otot yang kuat dan tulang yang kebal. Ruang makin sempit, jadi jangan tamak!',''),
+  level(4,'Lemak, Minyak, Garam &amp; Gula','<span>🍩</span><span>🍟</span><span>🍬</span>','MAKAN<br>SEDIKIT<br>SAHAJA','Awas! Puncak ini berbahaya. Ambil sikit sahaja atau kita akan mudah jatuh sakit!','fire'),
+  `<section class="slide" data-theme="" aria-label="Slide 8: Inventori Kad Kuasa"><div class="inventory-title">${sign('Inventori Kad Kuasa Mr. Meow')}</div><div class="cards">
+    <button class="power-card" type="button" data-detail="Sayur-sayuran & buah-buahan - Kuantiti: Paling Banyak. Fungsi: Perisai Penyakit."><span class="card-icon">🥦</span><h3>Sayur-sayuran &amp; <br>buah-buahan</h3><p>Kuantiti: Paling Banyak<br>Fungsi: Perisai Penyakit</p></button>
+    <button class="power-card gold" type="button" data-detail="Karbohidrat - Kuantiti: Secukupnya. Fungsi: Bahan Api Tenaga."><span class="card-icon">🍚</span><h3>Karbohidrat</h3><p>Kuantiti: Secukupnya<br>Fungsi: Bahan Api Tenaga</p></button>
+    <button class="power-card blue" type="button" data-detail="Protein & tenusu - Kuantiti: Sederhana. Fungsi: Bina Otot & Tulang."><span class="card-icon">🥛</span><h3>Protein &amp; tenusu</h3><p>Kuantiti: Sederhana<br>Fungsi: Bina Otot &amp; Tulang</p></button>
+    <button class="power-card red" type="button" data-detail="Lemak, minyak, garam & gula - Kuantiti: Sedikit Sahaja. Fungsi: Simpanan Kecemasan."><span class="card-icon">🍩</span><h3>Lemak, minyak, <br>garam &amp; gula</h3><p>Kuantiti: Sedikit Sahaja<br>Fungsi: Simpanan Kecemasan</p></button>
+  </div><div id="card-detail" class="card-detail" aria-live="polite"></div></section>`,
+  `<section class="slide" data-theme="fire" aria-label="Slide 9: Cabaran"><div class="quiz-layout"><div class="quiz-meal" role="img" aria-label="Pinggan berisi nasi dan sedikit protein sahaja, tanpa sayur atau buah, dengan minuman bikarbonat di sebelahnya"><div class="quiz-meal-plate"><span class="quiz-rice" aria-hidden="true">🍚</span><span class="quiz-protein" aria-hidden="true">🍗</span></div><div class="quiz-soda" aria-hidden="true"><span class="quiz-soda-bubbles">🫧</span></div></div><div class="wood-panel quiz-question">Adakah pemakanan ini sihat?</div><div class="quiz-cat">${cat}</div></div><div id="feedback" class="feedback" aria-live="assertive"></div><div class="answers"><button id="answer-no" class="btn no" type="button">TIDAK!</button><button id="answer-yes" class="btn yes" type="button">YA!</button></div><div id="quiz-confetti" class="confetti"></div></section>`,
+  `<section class="slide" data-theme="warm" aria-label="Slide 10: Formula Suku Suku Separuh"><div class="plate-layout"><div class="plate-left"><div class="bubble">Ini cara kita guna kuasa piramid setiap kali kita makan. Senang kan?</div>${cat.replace('class="cat"','class="cat small"')}</div><div class="plate-area"><div class="plate-labels"><span>Protein</span><span>Karbohidrat</span></div><div class="plate"><div>🍗</div><div>🍚</div><div class="half">🥦🍎🥕</div></div><div class="plate-labels"><span>Sayuran &amp; Buah-buahan</span></div></div></div><div class="plate-title">SENJATA RAHSIA:<br>Formula Suku Suku Separuh!</div></section>`,
+  `<section class="slide" data-theme="sunny" aria-label="Slide 11: Misi selesai"><div class="top-center">${sign('🏆 MISI SELESAI!<br>Tahniah Pahlawan Sihat!')}</div><div class="win-layout">${cat.replace('class="cat"','class="cat large"')}<div class="win-banner">🎉 Tahniah! Anda kini pakar. Jom uji kuasa Suku Suku Separuh di kantin sekolah esok!</div></div><div class="confetti" id="win-confetti"></div></section>`
+];
+const slidesEl=document.getElementById('slides'); slidesEl.innerHTML=slides.join('');
+const els=[...slidesEl.querySelectorAll('.slide')],stage=document.getElementById('stage'),back=document.getElementById('back'),next=document.getElementById('next'),counter=document.getElementById('counter');
+let current=0,quizPassed=false;
+function show(i){current=Math.max(0,Math.min(10,i));els.forEach((el,j)=>el.classList.toggle('active',j===current));stage.className='stage '+(els[current].dataset.theme||'');back.style.visibility=current===0?'hidden':'visible';next.style.visibility=current===0||current===10?'hidden':'visible';next.disabled=current===8&&!quizPassed;counter.textContent=`${current+1}/11`;if(current===10)makeConfetti(document.getElementById('win-confetti'),28)}
+function makeConfetti(target,count){if(target.children.length)return;for(let i=0;i<count;i++){let piece=document.createElement('i');piece.style.setProperty('--x',`${Math.random()*100}%`);piece.style.setProperty('--c',['#ffdb4c','#fd6f6b','#72e5a8','#61cafa'][i%4]);piece.style.setProperty('--t',`${3+Math.random()*3}s`);piece.style.setProperty('--d',`${-Math.random()*5}s`);target.appendChild(piece)}}
+back.addEventListener('click',()=>show(current-1));next.addEventListener('click',()=>show(current+1));document.getElementById('start').addEventListener('click',()=>show(1));
+document.querySelectorAll('.power-card').forEach(card=>card.addEventListener('click',()=>{document.querySelectorAll('.power-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');const detail=document.getElementById('card-detail');detail.textContent=card.dataset.detail;detail.classList.add('show')}));
+document.getElementById('answer-no').addEventListener('click',()=>{quizPassed=true;document.getElementById('feedback').textContent='Betul!';document.getElementById('answer-no').classList.add('correct');document.getElementById('answer-yes').classList.remove('incorrect');document.querySelector('.quiz-cat .cat').classList.add('jump');makeConfetti(document.getElementById('quiz-confetti'),12);next.disabled=false});
+document.getElementById('answer-yes').addEventListener('click',()=>{if(!quizPassed){document.getElementById('feedback').textContent='Cuba lagi!';const yes=document.getElementById('answer-yes');yes.classList.remove('incorrect');void yes.offsetWidth;yes.classList.add('incorrect');document.querySelector('.quiz-cat .cat').classList.remove('jump')}});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&current>0)show(current-1);if(e.key==='ArrowRight'&&current>0&&current<10&&!(current===8&&!quizPassed))show(current+1)});
+show(0);
+</script>
+</body>
+</html>
